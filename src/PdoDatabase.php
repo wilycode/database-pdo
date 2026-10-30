@@ -14,8 +14,9 @@ use WilyCode\Database\Driver\Exception\DatabaseException;
 use WilyCode\Database\Driver\Exception\NestedTransactionException;
 use WilyCode\Database\Driver\Exception\QueryException;
 use WilyCode\Database\Driver\Exception\TransactionException;
+use WilyCode\Database\Driver\PlatformProviderInterface;
 
-final readonly class PdoDatabase implements DatabaseInterface
+final readonly class PdoDatabase implements DatabaseInterface, PlatformProviderInterface
 {
     private const array DEFAULT_OPTIONS = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -81,6 +82,11 @@ final readonly class PdoDatabase implements DatabaseInterface
 
         $row = $this->run($query, $params, $types)->fetch(PDO::FETCH_NUM);
         return $row === false ? null : ($row[$columnIndex] ?? null);
+    }
+
+    public function getPlatformName(): string
+    {
+        return (string) $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
 
     public function getLastInsertId(): string

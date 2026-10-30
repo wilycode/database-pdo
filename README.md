@@ -14,6 +14,10 @@ Wrap a native `PDO` connection behind `DatabaseInterface`, execute parameterized
 >
 > **[Explore the WilyCode ecosystem →](https://github.com/wilycode/wilycode)**
 
+## Platform detection
+
+PdoDatabase implements PlatformProviderInterface and returns the actual PDO::ATTR_DRIVER_NAME. This enables executor dialect detection without exposing the connection. Requires database >=0.1.2; compatible with query 0.1 and 0.2. This does not add SQL Server/Oracle binding or generated-ID guarantees.
+
 ## Features
 
 - Implement `wilycode/database`'s `DatabaseInterface` using PDO.
